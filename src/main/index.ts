@@ -234,7 +234,7 @@ function createTray(): void {
   if (!appIcon || tray) return
   const trayIcon = appIcon.isEmpty() ? appIcon : appIcon.resize({ width: 16, height: 16 })
   tray = new Tray(trayIcon)
-  tray.setToolTip('壁纸大师')
+  tray.setToolTip('画境')
   updateTrayMenu()
   tray.on('double-click', () => showMainWindow())
 }

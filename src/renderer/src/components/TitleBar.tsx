@@ -23,12 +23,9 @@ const TitleBar = (): JSX.Element => {
     <header className="h-10 flex items-stretch shrink-0 bg-dark-800 drag-region select-none">
       <div className="flex items-center gap-2.5 px-4 min-w-0">
         <AppLogo className="w-7 h-7 shrink-0" />
-        <div className="flex items-center gap-2 min-w-0">
-          <span className="text-[13px] font-semibold text-slate-100 tracking-tight truncate">
-            壁纸大师
-          </span>
-          <span className="text-[10px] text-dark-300 tabular-nums">v1.0</span>
-        </div>
+        <span className="text-[13px] font-semibold text-slate-100 tracking-tight truncate">
+          画境
+        </span>
       </div>
 
       <div className="flex-1" />

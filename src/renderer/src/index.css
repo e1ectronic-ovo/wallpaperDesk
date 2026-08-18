@@ -585,3 +585,392 @@ select {
   0%   { transform: scale(1); opacity: 0.7; }
   100% { transform: scale(3.2); opacity: 0; }
 }
+
+/* ====== Toolbar / 顶栏（HUD 横向条带） ====== */
+.hud-toolbar {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(8, 18, 32, 0.88), rgba(4, 8, 18, 0.92));
+  border-bottom: 1px solid rgba(0, 255, 225, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(0, 255, 225, 0.22),
+    0 10px 32px -16px rgba(0, 0, 0, 0.95),
+    0 0 40px -24px rgba(0, 255, 225, 0.35);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+.hud-toolbar::before,
+.hud-toolbar::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  width: 18%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00ffe1, transparent);
+  filter: drop-shadow(0 0 6px rgba(0, 255, 225, 0.7));
+  pointer-events: none;
+}
+.hud-toolbar::before { left: 8%; }
+.hud-toolbar::after  { right: 8%; background: linear-gradient(90deg, transparent, #ff2d95, transparent); filter: drop-shadow(0 0 6px rgba(255, 45, 149, 0.6)); }
+
+/* HUD 风格输入框（搜索框） */
+.hud-input {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(4, 12, 22, 0.92), rgba(2, 6, 14, 0.96));
+  border: 1px solid rgba(0, 255, 225, 0.28);
+  color: #e6fffb;
+  font-family: 'Chakra Petch', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  letter-spacing: 0.03em;
+  clip-path: polygon(
+    10px 0, 100% 0, 100% calc(100% - 10px),
+    calc(100% - 10px) 100%, 0 100%, 0 10px
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(0, 255, 225, 0.16),
+    0 0 0 1px rgba(0, 0, 0, 0.45);
+  transition: all 0.22s ease;
+}
+.hud-input::placeholder {
+  color: rgba(124, 231, 210, 0.5);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+  font-size: 12px;
+}
+.hud-input:focus {
+  outline: none;
+  border-color: rgba(0, 255, 225, 0.85);
+  box-shadow:
+    inset 0 1px 0 rgba(0, 255, 225, 0.3),
+    0 0 0 1px rgba(0, 255, 225, 0.35),
+    0 0 22px -6px rgba(0, 255, 225, 0.65);
+}
+
+/* HUD 选择器 — 不用 clip-path / 原生 select，避免被 overflow 裁掉 */
+.hud-select {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background:
+    linear-gradient(180deg, rgba(6, 16, 28, 0.9), rgba(3, 8, 16, 0.96));
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2300ffe1' stroke-width='2.5'><polyline points='6 9 12 15 18 9'/></svg>"),
+    linear-gradient(180deg, rgba(6, 16, 28, 0.9), rgba(3, 8, 16, 0.96));
+  background-repeat: no-repeat, no-repeat;
+  background-position: right 10px center, 0 0;
+  background-size: 12px, 100% 100%;
+  border: 1px solid rgba(0, 255, 225, 0.26);
+  color: #d2fff7;
+  font-family: 'Chakra Petch', 'Microsoft YaHei', sans-serif;
+  letter-spacing: 0.04em;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 rgba(0, 255, 225, 0.14);
+  transition: all 0.2s ease;
+  min-width: 0;
+  max-width: 100%;
+  padding-right: 32px;
+  cursor: pointer;
+}
+.hud-select:hover,
+.hud-select:focus {
+  outline: none;
+  border-color: rgba(0, 255, 225, 0.65);
+  color: #ffffff;
+  box-shadow:
+    inset 0 1px 0 rgba(0, 255, 225, 0.26),
+    0 0 16px -6px rgba(0, 255, 225, 0.45);
+}
+
+.hud-menu {
+  position: fixed;
+  z-index: 80;
+  padding: 4px;
+  background: linear-gradient(180deg, rgba(8, 20, 36, 0.98), rgba(4, 10, 20, 0.98));
+  border: 1px solid rgba(0, 255, 225, 0.4);
+  box-shadow:
+    0 18px 48px -16px rgba(0, 0, 0, 0.95),
+    0 0 24px -8px rgba(0, 255, 225, 0.35);
+  max-height: min(320px, calc(100vh - 88px));
+  overflow-y: auto;
+}
+.hud-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  color: #c8fff6;
+  font-size: 13px;
+  font-family: 'Chakra Petch', 'Microsoft YaHei', sans-serif;
+  letter-spacing: 0.03em;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.hud-menu button:hover {
+  color: #ffffff;
+  background: rgba(0, 255, 225, 0.1);
+}
+.hud-menu button.active {
+  color: #00ffe1;
+  background: rgba(0, 255, 225, 0.16);
+}
+
+/* HUD 视图切换分段控件 */
+.hud-seg {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(6, 16, 28, 0.8), rgba(2, 6, 14, 0.95));
+  border: 1px solid rgba(0, 255, 225, 0.25);
+  clip-path: polygon(
+    8px 0, 100% 0, 100% calc(100% - 8px),
+    calc(100% - 8px) 100%, 0 100%, 0 8px
+  );
+  box-shadow: inset 0 1px 0 rgba(0, 255, 225, 0.14);
+  padding: 3px;
+}
+.hud-seg button {
+  position: relative;
+  padding: 6px 10px;
+  color: rgba(156, 236, 220, 0.75);
+  clip-path: polygon(
+    6px 0, 100% 0, 100% calc(100% - 6px),
+    calc(100% - 6px) 100%, 0 100%, 0 6px
+  );
+  transition: all 0.2s ease;
+}
+.hud-seg button:hover {
+  color: #ffffff;
+  background: rgba(0, 255, 225, 0.08);
+}
+.hud-seg button.active {
+  color: #021218;
+  background:
+    linear-gradient(90deg, #00ffe1 0%, #38bdf8 60%, #a855f7 100%);
+  background-size: 200% 100%;
+  animation: borderFlow 5s linear infinite;
+  box-shadow:
+    0 0 16px -4px rgba(0, 255, 225, 0.75),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* HUD 计数信息条（右侧资源计数） */
+.hud-counter {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background:
+    linear-gradient(90deg, rgba(0, 255, 225, 0.07), rgba(168, 85, 247, 0.04));
+  border: 1px solid rgba(0, 255, 225, 0.28);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  clip-path: polygon(
+    10px 0, 100% 0, 100% calc(100% - 10px),
+    calc(100% - 10px) 100%, 0 100%, 0 10px
+  );
+  box-shadow: inset 0 1px 0 rgba(0, 255, 225, 0.16);
+}
+
+/* 动态壁纸运行状态栏 — 可收缩、自适应宽度 */
+.hud-livebar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 8px 12px;
+  background:
+    linear-gradient(90deg, rgba(0, 255, 225, 0.14), rgba(255, 45, 149, 0.1));
+  border: 1px solid rgba(0, 255, 225, 0.5);
+  color: #e5fffa;
+  font-family: 'Chakra Petch', 'Microsoft YaHei', sans-serif;
+  border-radius: 2px;
+  box-shadow:
+    inset 0 1px 0 rgba(0, 255, 225, 0.32),
+    0 0 24px -10px rgba(0, 255, 225, 0.6);
+  transition: all 0.2s ease;
+}
+.hud-livebar:hover {
+  border-color: rgba(255, 45, 149, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 45, 149, 0.3),
+    0 0 30px -10px rgba(255, 45, 149, 0.55);
+}
+.hud-livebar .livebar-title {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* HUD 弹窗（预览大卡片） */
+.hud-modal {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(10, 22, 40, 0.96), rgba(4, 8, 18, 0.98));
+  border: 1px solid rgba(0, 255, 225, 0.3);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow:
+    0 1px 0 rgba(0, 255, 225, 0.32) inset,
+    0 0 0 1px rgba(0, 0, 0, 0.5),
+    0 50px 140px -50px rgba(0, 0, 0, 1),
+    0 0 80px -30px rgba(0, 255, 225, 0.4),
+    0 0 120px -60px rgba(255, 45, 149, 0.35);
+  clip-path: polygon(
+    20px 0, 100% 0, 100% calc(100% - 20px),
+    calc(100% - 20px) 100%, 0 100%, 0 20px
+  );
+  overflow: hidden;
+}
+.hud-modal > * {
+  position: relative;
+  z-index: 1;
+}
+.hud-modal::before {
+  /* 整体扫描叠加，压在背景上而不是按钮上 */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(0, 255, 225, 0.025) 0px,
+    rgba(0, 255, 225, 0.025) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: screen;
+}
+
+/* HUD 标签（#标签） */
+.hud-tag {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: rgba(156, 236, 220, 0.92);
+  background:
+    linear-gradient(90deg, rgba(0, 255, 225, 0.1), rgba(0, 255, 225, 0.02));
+  border: 1px solid rgba(0, 255, 225, 0.28);
+  clip-path: polygon(
+    8px 0, 100% 0, 100% calc(100% - 8px),
+    calc(100% - 8px) 100%, 0 100%, 0 8px
+  );
+  transition: all 0.18s ease;
+  cursor: pointer;
+}
+.hud-tag:hover {
+  color: #ffffff;
+  border-color: rgba(0, 255, 225, 0.7);
+  background:
+    linear-gradient(90deg, rgba(0, 255, 225, 0.2), rgba(168, 85, 247, 0.12));
+  box-shadow: 0 0 14px -4px rgba(0, 255, 225, 0.6);
+}
+
+/* HUD 开关（霓虹 toggle） */
+.hud-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 44px;
+  height: 22px;
+  background:
+    linear-gradient(180deg, rgba(8, 20, 34, 0.95), rgba(3, 8, 16, 0.98));
+  border: 1px solid rgba(0, 255, 225, 0.3);
+  border-radius: 999px;
+  box-shadow:
+    inset 0 1px 0 rgba(0, 255, 225, 0.18),
+    inset 0 0 8px rgba(0, 0, 0, 0.6);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+.hud-toggle::after {
+  content: '';
+  position: absolute;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #7ce7d2, #00ffe1);
+  box-shadow: 0 0 10px rgba(0, 255, 225, 0.8);
+  transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+.hud-toggle.on {
+  background:
+    linear-gradient(180deg, rgba(0, 255, 225, 0.22), rgba(168, 85, 247, 0.18));
+  border-color: rgba(0, 255, 225, 0.7);
+  box-shadow:
+    inset 0 1px 0 rgba(0, 255, 225, 0.35),
+    0 0 14px -4px rgba(0, 255, 225, 0.7);
+}
+.hud-toggle.on::after {
+  left: calc(100% - 18px);
+  background: linear-gradient(180deg, #ffffff, #00ffe1);
+  box-shadow: 0 0 14px rgba(0, 255, 225, 1), 0 0 22px rgba(168, 85, 247, 0.6);
+}
+
+/* 弹窗遮罩层 */
+.modal-backdrop {
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 30%, rgba(0, 255, 225, 0.18), transparent 60%),
+    radial-gradient(ellipse 50% 60% at 80% 90%, rgba(255, 45, 149, 0.16), transparent 60%),
+    rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* 动画：弹窗淡入上滑 */
+@keyframes modalIn {
+  0%   { opacity: 0; transform: translateY(28px) scale(0.96); filter: blur(6px); }
+  100% { opacity: 1; transform: translateY(0) scale(1);    filter: blur(0); }
+}
+.hud-modal.animate-in { animation: modalIn 0.38s cubic-bezier(0.2, 0.9, 0.3, 1.15) both; }
+
+@keyframes fadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+.fade-in { animation: fadeIn 0.24s ease both; }
+
+/* ====== 通用动画 Keyframes ====== */
+@keyframes borderFlow {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+@keyframes scanSweep {
+  0%   { transform: translateY(-140%); }
+  100% { transform: translateY(380%); }
+}
+@keyframes hudPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgba(0, 255, 225, 0.4),
+      0 0 20px -4px rgba(0, 255, 225, 0.7),
+      0 0 46px -12px rgba(255, 45, 149, 0.35);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(0, 255, 225, 0.6),
+      0 0 36px -6px rgba(0, 255, 225, 0.95),
+      0 0 70px -16px rgba(255, 45, 149, 0.55);
+  }
+}
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  3%  { opacity: 0.84; }
+  6%  { opacity: 1; }
+  44% { opacity: 0.92; }
+  47% { opacity: 1; }
+  54% { opacity: 0.78; }
+  57% { opacity: 1; }
+}
+.animate-flicker { animation: flicker 7s infinite; }

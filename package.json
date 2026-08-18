@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "本地壁纸管理 - 导入图片/视频，设置静态与动态桌面壁纸",
   "main": "./out/main/index.js",
-  "author": "Wallpaper Master",
+  "author": "画境",
   "license": "MIT",
   "scripts": {
     "format": "prettier --write .",

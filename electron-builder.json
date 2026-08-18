@@ -1,6 +1,6 @@
 {
   "appId": "com.wallpapermaster.app",
-  "productName": "WallpaperMaster",
+  "productName": "画境",
   "directories": {
     "output": "release",
     "buildResources": "resources"
@@ -53,7 +53,7 @@
     "deleteAppDataOnUninstall": false,
     "createDesktopShortcut": true,
     "createStartMenuShortcut": true,
-    "shortcutName": "Wallpaper Master",
+    "shortcutName": "画境",
     "runAfterFinish": true,
     "differentialPackage": false,
     "unicode": true,

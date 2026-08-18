@@ -93,13 +93,13 @@ const Sidebar = ({ onOpenSettings, onNavigate }: SidebarProps): JSX.Element => {
       {/* 品牌头部 */}
       <div className="px-4 pt-5 pb-3 relative">
         <div className="flex items-center justify-between mb-1">
-          <h1 className="font-display font-extrabold text-[17px] tracking-[0.2em] bg-gradient-to-r from-[#00ffe1] via-[#a855f7] to-[#ff2d95] bg-clip-text text-transparent animate-flicker">
-            NEON.WALL
+          <h1 className="font-display font-extrabold text-[20px] tracking-[0.28em] bg-gradient-to-r from-[#00ffe1] via-[#a855f7] to-[#ff2d95] bg-clip-text text-transparent animate-flicker">
+            画境
           </h1>
           <span className="data-chip !py-[2px]">SYS·READY</span>
         </div>
         <p className="text-[11px] text-dark-200/80 tracking-[0.12em] font-mono-tabular">
-          // WALLPAPER.MASTER v1.0
+          // LIGHT · SPACE
         </p>
       </div>
 
