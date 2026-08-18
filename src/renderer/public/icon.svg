@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <defs>
+    <linearGradient id="ring" x1="48" y1="32" x2="208" y2="224" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7dd3fc"/>
+      <stop offset="0.5" stop-color="#60a5fa"/>
+      <stop offset="1" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="sky" x1="128" y1="56" x2="128" y2="176" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1e3a8a" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#0f172a" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="hill-back" x1="32" y1="112" x2="224" y2="192" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1d4ed8"/>
+      <stop offset="1" stop-color="#1e40af"/>
+    </linearGradient>
+    <linearGradient id="hill-front" x1="16" y1="144" x2="240" y2="224" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(184 80) rotate(90) scale(64)">
+      <stop stop-color="#fde68a" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#f59e0b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="256" height="256" rx="64" fill="#0f172a"/>
+  <rect x="6" y="6" width="244" height="244" rx="58" stroke="url(#ring)" stroke-width="12"/>
+  <rect x="24" y="24" width="208" height="208" rx="48" fill="url(#sky)"/>
+  <circle cx="184" cy="80" r="48" fill="url(#glow)"/>
+  <circle cx="184" cy="80" r="18" fill="#fde68a"/>
+  <path d="M16 196 84 132 136 164 240 92V212H16V196Z" fill="url(#hill-back)" opacity="0.85"/>
+  <path d="M16 212 64 168 116 192 176 140 240 180V212H16Z" fill="url(#hill-front)"/>
+  <path d="M112 116 136 140 172 104" stroke="#e0f2fe" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+</svg>

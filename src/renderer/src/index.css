@@ -1,0 +1,587 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Noto Sans SC', 'Inter', 'Microsoft YaHei', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #e6fffb;
+  user-select: none;
+  position: relative;
+  isolation: isolate;
+  background-color: #02040a;
+}
+
+/* ====== 全局多层科幻背景 ====== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  background:
+    radial-gradient(ellipse 70% 45% at 50% -8%, rgba(0, 255, 225, 0.22), transparent 65%),
+    radial-gradient(ellipse 55% 45% at 110% 110%, rgba(255, 45, 149, 0.22), transparent 65%),
+    radial-gradient(ellipse 60% 55% at -10% 110%, rgba(168, 85, 247, 0.18), transparent 65%),
+    linear-gradient(180deg, #030713 0%, #02040a 60%, #05020c 100%);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0, 255, 225, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 225, 0.06) 1px, transparent 1px),
+    repeating-linear-gradient(0deg, rgba(0, 255, 225, 0.045) 0px, rgba(0, 255, 225, 0.045) 1px, transparent 1px, transparent 3px);
+  background-size: 48px 48px, 48px 48px, 100% 6px;
+  mask-image: radial-gradient(ellipse 80% 75% at 50% 50%, #000 55%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 75% at 50% 50%, #000 55%, transparent 100%);
+  opacity: 0.7;
+  mix-blend-mode: screen;
+}
+
+/* 全局霓虹文本闪烁 + HUD 字体 */
+.font-display {
+  letter-spacing: 0.08em;
+}
+
+.font-mono-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ====== 自定义滚动条（霓虹青） ====== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(2, 12, 22, 0.6);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(0, 255, 225, 0.7), rgba(168, 85, 247, 0.6));
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(0, 255, 225, 0.35);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00ffe1, #a855f7);
+  box-shadow: 0 0 16px rgba(0, 255, 225, 0.55);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* 拖动区域 */
+.drag-region {
+  -webkit-app-region: drag;
+}
+
+.no-drag-region {
+  -webkit-app-region: no-drag;
+}
+
+/* ====== 图片骨架加载 ====== */
+.image-skeleton {
+  background:
+    linear-gradient(90deg, rgba(0, 255, 225, 0.06) 25%, rgba(0, 255, 225, 0.18) 50%, rgba(255, 45, 149, 0.12) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.6s infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.image-skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 225, 0.18), transparent);
+  animation: skeleton-bar 1.8s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes skeleton-bar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ====== 组件级样式：HUD 面板 / 按钮 / 卡片 ====== */
+
+/* HUD 斜切角面板（clip-path 斜四个角） */
+.hud-panel {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(10, 22, 38, 0.78), rgba(6, 10, 22, 0.82));
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(0, 255, 225, 0.22);
+  box-shadow:
+    0 1px 0 rgba(0, 255, 225, 0.35) inset,
+    0 0 0 1px rgba(0, 0, 0, 0.4),
+    0 22px 60px -26px rgba(0, 0, 0, 0.95),
+    0 0 24px -8px rgba(0, 255, 225, 0.18);
+  clip-path: polygon(
+    14px 0, 100% 0, 100% calc(100% - 14px),
+    calc(100% - 14px) 100%, 0 100%, 0 14px
+  );
+}
+
+/* HUD 四角装饰（叠加伪元素） */
+.hud-corners {
+  position: relative;
+}
+.hud-corners::before,
+.hud-corners::after {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid rgba(0, 255, 225, 0.75);
+  box-shadow: 0 0 10px rgba(0, 255, 225, 0.35);
+  pointer-events: none;
+  z-index: 3;
+}
+.hud-corners::before {
+  top: -1px;
+  left: -1px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.hud-corners::after {
+  bottom: -1px;
+  right: -1px;
+  border-left: 0;
+  border-top: 0;
+}
+
+/* HUD 外框双线角（4 角） */
+.hud-brackets {
+  position: relative;
+}
+.hud-brackets .c {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: rgba(0, 255, 225, 0.85);
+  pointer-events: none;
+  z-index: 4;
+  filter: drop-shadow(0 0 4px rgba(0, 255, 225, 0.5));
+}
+.hud-brackets .c.tl { top: 6px; left: 6px;  border-top: 1.5px solid; border-left: 1.5px solid; }
+.hud-brackets .c.tr { top: 6px; right: 6px; border-top: 1.5px solid; border-right: 1.5px solid; }
+.hud-brackets .c.bl { bottom: 6px; left: 6px;  border-bottom: 1.5px solid; border-left: 1.5px solid; }
+.hud-brackets .c.br { bottom: 6px; right: 6px; border-bottom: 1.5px solid; border-right: 1.5px solid; }
+
+/* 流动霓虹描边（按钮、卡片激活态） */
+.neon-border-flow {
+  position: relative;
+  isolation: isolate;
+}
+.neon-border-flow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 255, 225, 0.85),
+    rgba(168, 85, 247, 0.8),
+    rgba(255, 45, 149, 0.8),
+    rgba(0, 255, 225, 0.85)
+  );
+  background-size: 200% 100%;
+  animation: borderFlow 4s linear infinite;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.85;
+}
+
+/* 横向扫描光（悬停卡片时从上到下扫一道霓虹） */
+.scan-sweep::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 38%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 255, 225, 0.18) 50%,
+    rgba(255, 45, 149, 0.12) 70%,
+    transparent 100%
+  );
+  filter: blur(4px);
+  pointer-events: none;
+  animation: scanSweep 2.6s linear infinite;
+  z-index: 2;
+  mix-blend-mode: screen;
+}
+
+/* 数据流标签（标签/数字信息，像 HUD 数据） */
+.data-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(0, 255, 225, 0.95);
+  background:
+    linear-gradient(90deg, rgba(0, 255, 225, 0.1), rgba(0, 255, 225, 0.02));
+  border: 1px solid rgba(0, 255, 225, 0.3);
+  border-radius: 2px;
+  clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+
+.data-chip::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #00ffe1;
+  box-shadow: 0 0 8px #00ffe1;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+.data-chip.magenta {
+  color: rgba(255, 45, 149, 0.95);
+  background:
+    linear-gradient(90deg, rgba(255, 45, 149, 0.12), rgba(255, 45, 149, 0.02));
+  border-color: rgba(255, 45, 149, 0.35);
+}
+.data-chip.magenta::before {
+  background: #ff2d95;
+  box-shadow: 0 0 8px #ff2d95;
+}
+
+.data-chip.yellow {
+  color: rgba(255, 214, 10, 0.95);
+  background:
+    linear-gradient(90deg, rgba(255, 214, 10, 0.12), rgba(255, 214, 10, 0.02));
+  border-color: rgba(255, 214, 10, 0.35);
+}
+.data-chip.yellow::before {
+  background: #ffd60a;
+  box-shadow: 0 0 8px #ffd60a;
+}
+
+/* ====== 按钮（霓虹科幻风） ====== */
+
+/* 主按钮：青→品红渐变 + 流动霓虹描边 + 按下脉冲 */
+.btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-family: 'Chakra Petch', 'Orbitron', 'Microsoft YaHei', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #021218;
+  background:
+    linear-gradient(90deg, #00ffe1 0%, #38bdf8 50%, #a855f7 100%);
+  background-size: 200% 100%;
+  border-radius: 4px;
+  clip-path: polygon(
+    10px 0, 100% 0, 100% calc(100% - 10px),
+    calc(100% - 10px) 100%, 0 100%, 0 10px
+  );
+  box-shadow:
+    0 0 18px -4px rgba(0, 255, 225, 0.6),
+    0 0 36px -10px rgba(168, 85, 247, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: all 0.25s ease;
+  animation: borderFlow 5s linear infinite;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background-position: 100% 0%;
+  box-shadow:
+    0 0 26px -2px rgba(0, 255, 225, 0.8),
+    0 0 56px -14px rgba(255, 45, 149, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+.btn-primary:active {
+  transform: translateY(0) scale(0.97);
+  filter: brightness(0.92);
+}
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  animation: none;
+  background: linear-gradient(90deg, #0b2a30, #1a1630);
+  color: #6e8b8f;
+  box-shadow: none;
+}
+
+/* 次按钮：深色玻璃 + 霓虹细描边 */
+.btn-secondary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 16px;
+  font-family: 'Chakra Petch', 'Microsoft YaHei', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: #d2fff7;
+  background:
+    linear-gradient(180deg, rgba(8, 20, 34, 0.85), rgba(6, 10, 22, 0.9));
+  border: 1px solid rgba(0, 255, 225, 0.3);
+  border-radius: 4px;
+  clip-path: polygon(
+    8px 0, 100% 0, 100% calc(100% - 8px),
+    calc(100% - 8px) 100%, 0 100%, 0 8px
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(0, 255, 225, 0.18),
+    0 10px 30px -18px rgba(0, 255, 225, 0.4);
+  transition: all 0.22s ease;
+  cursor: pointer;
+}
+.btn-secondary:hover {
+  border-color: rgba(0, 255, 225, 0.65);
+  color: #ffffff;
+  background:
+    linear-gradient(180deg, rgba(10, 28, 44, 0.95), rgba(8, 14, 30, 0.98));
+  box-shadow:
+    inset 0 1px 0 rgba(0, 255, 225, 0.3),
+    0 0 18px -6px rgba(0, 255, 225, 0.55);
+  transform: translateY(-1px);
+}
+.btn-secondary:active {
+  transform: translateY(0) scale(0.97);
+}
+.btn-secondary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* 幽灵按钮（极简） */
+.btn-ghost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: 3px;
+  color: #b8e9dd;
+  font-family: 'Chakra Petch', 'Microsoft YaHei', sans-serif;
+  letter-spacing: 0.04em;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.btn-ghost:hover {
+  color: #ffffff;
+  background: rgba(0, 255, 225, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(0, 255, 225, 0.25);
+}
+
+/* 图标按钮（40x40 类） */
+.icon-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 4px;
+  color: #7ce7d2;
+  background: rgba(0, 255, 225, 0.04);
+  border: 1px solid rgba(0, 255, 225, 0.18);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.icon-btn:hover {
+  color: #e5fffa;
+  border-color: rgba(0, 255, 225, 0.55);
+  background: rgba(0, 255, 225, 0.1);
+  box-shadow: 0 0 12px rgba(0, 255, 225, 0.3);
+}
+
+/* ====== 卡片：WallpaperCard ====== */
+.wallpaper-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2),
+              box-shadow 0.35s ease,
+              border-color 0.35s ease;
+  border: 1px solid rgba(0, 255, 225, 0.12);
+  background: linear-gradient(180deg, rgba(10, 18, 32, 0.5), rgba(4, 6, 14, 0.7));
+  clip-path: polygon(
+    10px 0, 100% 0, 100% calc(100% - 10px),
+    calc(100% - 10px) 100%, 0 100%, 0 10px
+  );
+}
+.wallpaper-card::after {
+  /* 默认暗扫线，静止 */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0, 255, 225, 0.03) 0px, rgba(0, 255, 225, 0.03) 1px, transparent 1px, transparent 4px);
+  pointer-events: none;
+  z-index: 2;
+}
+.wallpaper-card::before {
+  /* 悬停发光层 */
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, #00ffe1, #a855f7, #ff2d95, #00ffe1);
+  background-size: 200% 100%;
+  opacity: 0;
+  filter: blur(6px);
+  z-index: -1;
+  transition: opacity 0.4s ease;
+}
+
+.wallpaper-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(0, 255, 225, 0.75);
+  box-shadow:
+    0 28px 60px -26px rgba(0, 0, 0, 0.95),
+    0 0 32px -10px rgba(0, 255, 225, 0.55),
+    0 0 60px -20px rgba(255, 45, 149, 0.35);
+}
+.wallpaper-card:hover::before { opacity: 0.9; animation: borderFlow 3.5s linear infinite; }
+.wallpaper-card:hover .card-overlay { opacity: 1; }
+
+/* 激活态（正在播放的动态壁纸卡片） */
+.wallpaper-card.active {
+  border-color: rgba(0, 255, 225, 0.95);
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 225, 0.4),
+    0 0 28px -4px rgba(0, 255, 225, 0.7),
+    0 0 56px -12px rgba(255, 45, 149, 0.35);
+  animation: hudPulse 2.2s ease-in-out infinite;
+}
+
+/* 分隔 HUD 线（渐变线条） */
+.hud-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 225, 0.6),
+    rgba(168, 85, 247, 0.5),
+    rgba(0, 255, 225, 0.6),
+    transparent
+  );
+  box-shadow: 0 0 8px rgba(0, 255, 225, 0.3);
+}
+
+/* 选中项左侧辉光条（Sidebar 分类激活） */
+.glow-bullet {
+  position: relative;
+}
+.glow-bullet::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14%;
+  bottom: 14%;
+  width: 3px;
+  background: linear-gradient(180deg, #00ffe1, #a855f7);
+  box-shadow: 0 0 12px rgba(0, 255, 225, 0.7), 0 0 24px rgba(168, 85, 247, 0.4);
+  border-radius: 0 3px 3px 0;
+}
+
+/* range / slider 强化霓虹 */
+input[type='range'].accent-cyan-400,
+input[type='range'] {
+  accent-color: #00ffe1;
+  height: 16px;
+}
+input[type='range']::-webkit-slider-runnable-track {
+  height: 2px;
+  background: linear-gradient(90deg, rgba(0,255,225,0.3), rgba(255,45,149,0.25));
+  box-shadow: 0 0 6px rgba(0,255,225,0.3);
+  border-radius: 2px;
+}
+input[type='range']::-webkit-slider-thumb {
+  height: 14px;
+  width: 14px;
+  margin-top: -6px;
+  background: #00ffe1;
+  border: 2px solid #021014;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0,255,225,0.8), 0 0 22px rgba(255,45,149,0.4);
+  transition: transform 0.15s ease;
+}
+input[type='range']::-webkit-slider-thumb:hover { transform: scale(1.25); }
+
+/* select selectbox */
+select {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2300ffe1' stroke-width='2.5'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 32px !important;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* 进度指示器（正在下载/应用 - 环形脉冲） */
+.ring-pulse {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  background: currentColor;
+  border-radius: 50%;
+  box-shadow: 0 0 10px currentColor;
+}
+.ring-pulse::before,
+.ring-pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  opacity: 0.6;
+  animation: ringPulse 1.8s ease-out infinite;
+}
+.ring-pulse::after { animation-delay: 0.9s; }
+
+@keyframes ringPulse {
+  0%   { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(3.2); opacity: 0; }
+}

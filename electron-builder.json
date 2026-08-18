@@ -1,0 +1,68 @@
+{
+  "appId": "com.wallpapermaster.app",
+  "productName": "WallpaperMaster",
+  "directories": {
+    "output": "release",
+    "buildResources": "resources"
+  },
+  "files": [
+    {
+      "from": "out",
+      "to": "out",
+      "filter": ["**/*"]
+    },
+    "package.json"
+  ],
+  "asar": true,
+  "asarUnpack": ["**/node_modules/koffi/**", "**/node_modules/@koromix/**"],
+  "extraResources": [
+    {
+      "from": "scripts/set-wallpaper-all-monitors.ps1",
+      "to": "scripts/set-wallpaper-all-monitors.ps1"
+    }
+  ],
+  "compression": "maximum",
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      },
+      {
+        "target": "portable",
+        "arch": ["x64"]
+      },
+      {
+        "target": "dir",
+        "arch": ["x64"]
+      }
+    ],
+    "artifactName": "${productName}-${version}-${arch}.${ext}",
+    "icon": "icon.png",
+    "sign": null,
+    "signAndEditExecutable": false,
+    "verifyUpdateCodeSignature": false,
+    "requestedExecutionLevel": "asInvoker"
+  },
+  "nsis": {
+    "artifactName": "${productName}-Setup-${version}-${arch}.${ext}",
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "allowElevation": true,
+    "deleteAppDataOnUninstall": false,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "Wallpaper Master",
+    "runAfterFinish": true,
+    "differentialPackage": false,
+    "unicode": true,
+    "warningsAsErrors": false,
+    "installerLanguages": ["zh-CN", "en-US"],
+    "language": "2052"
+  },
+  "portable": {
+    "artifactName": "${productName}-Portable-${version}-${arch}.${ext}"
+  },
+  "publish": null
+}
